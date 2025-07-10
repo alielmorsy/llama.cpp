@@ -37,6 +37,26 @@ set_target_properties(mtmd
 
 install(TARGETS mtmd LIBRARY PUBLIC_HEADER)
 
+include(CMakePackageConfigHelpers)
+
+configure_package_config_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/mtmd-config.cmake.in
+        ${CMAKE_CURRENT_BINARY_DIR}/mtmd-config.cmake
+        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mtmd
+        PATH_VARS LLAMA_INCLUDE_INSTALL_DIR
+        LLAMA_LIB_INSTALL_DIR
+        LLAMA_BIN_INSTALL_DIR )
+
+
+write_basic_package_version_file(
+        ${CMAKE_CURRENT_BINARY_DIR}/mtmd-version.cmake
+        VERSION ${LLAMA_INSTALL_VERSION}
+        COMPATIBILITY SameMajorVersion)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mtmd-config.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/mtmd-version.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mtmd)
+
 if (NOT MSVC)
     # for stb_image.h and miniaudio.h
     target_compile_options(mtmd PRIVATE -Wno-cast-qual)
@@ -58,3 +78,5 @@ set_target_properties  (${TARGET} PROPERTIES OUTPUT_NAME llama-mtmd-cli)
 install                (TARGETS ${TARGET} RUNTIME)
 target_link_libraries  (${TARGET} PRIVATE common mtmd Threads::Threads)
 target_compile_features(${TARGET} PRIVATE cxx_std_17)
+
+message(STATUS "Public headers: ${MTMD_PUBLIC_HEADERS}")

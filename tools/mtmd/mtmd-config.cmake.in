@@ -1,0 +1,45 @@
+# mtmd-config.cmake.in — CMake package config for the mtmd library
+
+set(MTMD_VERSION      "@LLAMA_INSTALL_VERSION@")
+set(MTMD_BUILD_COMMIT "@LLAMA_BUILD_COMMIT@")
+set(MTMD_BUILD_NUMBER "@LLAMA_BUILD_NUMBER@")
+set(MTMD_SHARED_LIB   @BUILD_SHARED_LIBS@)
+
+@PACKAGE_INIT@
+
+# Set install paths
+set_and_check(MTMD_INCLUDE_DIR "@PACKAGE_LLAMA_INCLUDE_INSTALL_DIR@")
+set_and_check(MTMD_LIB_DIR     "@PACKAGE_LLAMA_LIB_INSTALL_DIR@")
+set_and_check(MTMD_BIN_DIR     "@PACKAGE_LLAMA_BIN_INSTALL_DIR@")
+
+# Find llama library
+find_package(llama REQUIRED HINTS "${MTMD_LIB_DIR}/cmake")
+
+# Locate the installed mtmd static or shared library
+find_library(mtmd_LIBRARY
+    NAMES mtmd
+    REQUIRED
+    HINTS "${MTMD_LIB_DIR}"
+    NO_CMAKE_FIND_ROOT_PATH
+)
+
+# Define imported target
+add_library(mtmd SHARED IMPORTED)
+
+set(mtmd_DLL "${MTMD_BIN_DIR}/mtmd.dll")
+
+set_target_properties(mtmd PROPERTIES
+    IMPORTED_IMPLIB "${mtmd_LIBRARY}"
+    IMPORTED_LOCATION "${mtmd_DLL}"
+    INTERFACE_INCLUDE_DIRECTORIES "${MTMD_INCLUDE_DIR}"
+    INTERFACE_LINK_LIBRARIES "llama"
+    IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
+    INTERFACE_COMPILE_FEATURES cxx_std_17
+    POSITION_INDEPENDENT_CODE ON
+)
+
+# Create alias for modern usage
+add_library(mtmd::mtmd ALIAS mtmd)
+
+# Check required components (if any)
+check_required_components(mtmd)
