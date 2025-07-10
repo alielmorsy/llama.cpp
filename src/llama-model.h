@@ -32,6 +32,7 @@ enum llm_type {
     LLM_TYPE_190M,
     LLM_TYPE_220M,
     LLM_TYPE_250M,
+    LLM_TYPE_256M,
     LLM_TYPE_270M,
     LLM_TYPE_335M,
     LLM_TYPE_410M,
@@ -174,6 +175,9 @@ struct llama_layer {
     struct ggml_tensor * attn_norm_cross = nullptr;
     struct ggml_tensor * attn_norm_enc   = nullptr;
     struct ggml_tensor * ssm_norm        = nullptr;
+    struct ggml_tensor * ssm_dt_norm     = nullptr;
+    struct ggml_tensor * ssm_b_norm      = nullptr;
+    struct ggml_tensor * ssm_c_norm      = nullptr;
 
     // attention
     struct ggml_tensor * wq        = nullptr;
