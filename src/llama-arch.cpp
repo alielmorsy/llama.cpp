@@ -3,8 +3,9 @@
 #include "llama-impl.h"
 
 #include <map>
+#include <unordered_map>
 
-static const std::map<llm_arch, const char *> LLM_ARCH_NAMES = {
+static const std::unordered_map<llm_arch, const char *> LLM_ARCH_NAMES = {
     { LLM_ARCH_LLAMA,            "llama"            },
     { LLM_ARCH_LLAMA4,           "llama4"           },
     { LLM_ARCH_DECI,             "deci"             },
@@ -87,7 +88,7 @@ static const std::map<llm_arch, const char *> LLM_ARCH_NAMES = {
     { LLM_ARCH_UNKNOWN,          "(unknown)"        },
 };
 
-static const std::map<llm_kv, const char *> LLM_KV_NAMES = {
+static const std::unordered_map<llm_kv, const char *> LLM_KV_NAMES = {
     { LLM_KV_GENERAL_TYPE,                 "general.type"                          },
     { LLM_KV_GENERAL_ARCHITECTURE,         "general.architecture"                  },
     { LLM_KV_GENERAL_QUANTIZATION_VERSION, "general.quantization_version"          },
@@ -234,7 +235,7 @@ static const std::map<llm_kv, const char *> LLM_KV_NAMES = {
     { LLM_KV_TOKENIZER_MIDDLE_ID, "tokenizer.ggml.middle_token_id" },
 };
 
-static const std::map<llm_arch, std::map<llm_tensor, const char *>> LLM_TENSOR_NAMES = {
+static const std::unordered_map<llm_arch, std::unordered_map<llm_tensor, const char *>> LLM_TENSOR_NAMES = {
     {
         LLM_ARCH_LLAMA,
         {
@@ -1864,7 +1865,7 @@ static const std::map<llm_arch, std::map<llm_tensor, const char *>> LLM_TENSOR_N
     },
 };
 
-static const std::map<llm_tensor, llm_tensor_info> LLM_TENSOR_INFOS = {
+static const std::unordered_map<llm_tensor, llm_tensor_info> LLM_TENSOR_INFOS = {
     {LLM_TENSOR_TOKEN_EMBD,                 {LLM_TENSOR_LAYER_INPUT, GGML_OP_GET_ROWS}},
     {LLM_TENSOR_POS_EMBD,                   {LLM_TENSOR_LAYER_INPUT, GGML_OP_GET_ROWS}},
     {LLM_TENSOR_TOKEN_EMBD_NORM,            {LLM_TENSOR_LAYER_INPUT, GGML_OP_GET_ROWS}},
