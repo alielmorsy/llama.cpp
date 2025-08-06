@@ -1,7 +1,6 @@
 @PACKAGE_INIT@
 
 @GGML_VARIABLES_EXPANDED@
-
 # Find all dependencies before creating any target.
 include(CMakeFindDependencyMacro)
 find_dependency(Threads)
